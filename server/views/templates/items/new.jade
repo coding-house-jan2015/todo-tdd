@@ -1,0 +1,27 @@
+extends ../../layouts/master
+block content
+
+  h3 New Item
+
+  .row
+    .col-xs-4
+      form(method='post', action='/items')
+        .form-group
+          label(for='title') Title
+          input#title.form-control(type='text', name='title', autofocus=true)
+        .form-group
+          label(for='due') Due
+          input#due.form-control(type='date', name='due')
+        .form-group
+          label(for='tags') Tags
+          input#tags.form-control(type='text', name='tags')
+        .form-group
+          label(for='priority') Priority
+          select#priority.form-control(name='priority')
+            option(value='') Select Priority
+            option High
+            option Medium
+            option Low
+        .form-group
+          button.btn.btn-default(type='submit') Add Item
+    .col-xs-8
