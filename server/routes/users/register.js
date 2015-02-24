@@ -5,6 +5,6 @@ module.exports = {
     mode: 'try'
   },
   handler: function(request, reply) {
-    reply.view('templates/general/home');
+    reply.view('templates/users/register');
   }
 };

@@ -1,0 +1,21 @@
+extends ../../layouts/master
+block content
+
+  .btn-toolbar(role='toolbar')
+    .btn-group(role='group')
+      a.btn.btn-default(href='/albums'): i.fa.fa-camera
+
+  h3 Register
+
+  .row
+    .col-xs-4
+      form(method='post', action='/users')
+        .form-group
+          label(for='email') Email
+          input#email.form-control(type='email', name='email', autofocus=true)
+        .form-group
+          label(for='password') Password
+          input#password.form-control(type='password', name='password')
+        .form-group
+          button.btn.btn-default(type='submit') Register
+    .col-xs-8
