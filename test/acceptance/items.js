@@ -3,39 +3,31 @@
 'use strict';
 
 var expect = require('chai').expect;
-var User = require('../../server/models/user');
-var Item = require('../../server/models/item');
 var Lab = require('lab');
 var lab = exports.lab = Lab.script();
 var describe = lab.describe;
 var it = lab.it;
 var beforeEach = lab.beforeEach;
 var server = require('../../server/index');
+var cp = require('child_process');
+var dbname = process.env.MONGO_URL.split('/')[3];
 
 var cookie;
-var bob;
-var item;
 
 describe('items', function() {
   beforeEach(function(done) {
-    User.remove(function() {
-      User.register({email:'bob@aol.com', password:'123'}, function(err, user){
-        bob = user;
-        var options = {
-          method:'post',
-          url:'/users/authenticate',
-          payload:{
-            email:'bob@aol.com',
-            password:'123'
-          }
-        };
-        server.inject(options, function(response){
-          cookie = response.headers['set-cookie'][0].match(/hapi-cookie=[^;]+/)[0];
-          item = new Item({title:'a', due:'2009-08-27', tags:'BbB , cCc , ddD', priority:'e', userId:bob._id});
-          item.save(function(){
-            done();
-          });
-        });
+    cp.execFile(__dirname + '/../scripts/clean-db.sh', [dbname], {cwd:__dirname + '/../scripts'}, function(){
+      var options = {
+        method:'post',
+        url:'/users/authenticate',
+        payload:{
+          email:'bob@aol.com',
+          password:'123'
+        }
+      };
+      server.inject(options, function(response){
+        cookie = response.headers['set-cookie'][0].match(/hapi-cookie=[^;]+/)[0];
+        done();
       });
     });
   });
@@ -104,7 +96,7 @@ describe('items', function() {
     it('should update an item', function(done) {
       var options = {
         method:'post',
-        url:'/items/' + item._id,
+        url:'/items/0000000000000000000000a1',
         headers: {
           cookie: cookie
         }

@@ -1,0 +1,27 @@
+{
+  "_id" : {"$oid":"0000000000000000000000a1"},
+  "title" : "a",
+  "due" : {"$date":1424828111020},
+  "priority" : "low",
+  "userId" : {"$oid":"000000000000000000000001"},
+    "tags" : [
+        "tag1",
+        "tag2",
+        "tag3"
+    ],
+    "isComplete" : false,
+    "createdAt" : {"$date":1424828111020}
+}
+{
+  "_id" : {"$oid":"0000000000000000000000a2"},
+  "title" : "b",
+  "due" : {"$date":1424828111020},
+  "priority" : "medium",
+  "userId" : {"$oid":"000000000000000000000002"},
+    "tags" : [
+        "tag1",
+        "tag3"
+    ],
+    "isComplete" : true,
+    "createdAt" : {"$date":1424828111020}
+}
