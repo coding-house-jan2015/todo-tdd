@@ -14,6 +14,6 @@ module.exports = {
 
     Item.find(filter).sort(sort).skip(skip).limit(5).exec(function(err, items){
       reply.view('templates/items/index', {items:items});
-    })
+    });
   }
 };
