@@ -16,7 +16,8 @@ var cookie;
 
 describe('items', function() {
   beforeEach(function(done) {
-    cp.execFile(__dirname + '/../scripts/clean-db.sh', [dbname], {cwd:__dirname + '/../scripts'}, function(){
+    cp.execFile(__dirname + '/../scripts/clean-db.sh', [dbname], {cwd:__dirname + '/../scripts'}, function(a, b, c){
+      console.log('*******', a, b, c);
       var options = {
         method:'post',
         url:'/users/authenticate',
