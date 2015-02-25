@@ -4,6 +4,7 @@
 
 var expect = require('chai').expect;
 var User = require('../../server/models/user');
+var Item = require('../../server/models/item');
 var Lab = require('lab');
 var lab = exports.lab = Lab.script();
 var describe = lab.describe;
@@ -13,6 +14,7 @@ var server = require('../../server/index');
 
 var cookie;
 var bob;
+var item;
 
 describe('items', function() {
   beforeEach(function(done) {
@@ -29,7 +31,10 @@ describe('items', function() {
         };
         server.inject(options, function(response){
           cookie = response.headers['set-cookie'][0].match(/hapi-cookie=[^;]+/)[0];
-          done();
+          item = new Item({title:'a', due:'2009-08-27', tags:'BbB , cCc , ddD', priority:'e', userId:bob._id});
+          item.save(function(){
+            done();
+          });
         });
       });
     });
@@ -84,6 +89,37 @@ describe('items', function() {
           tags: '',
           priority: ''
         },
+        headers: {
+          cookie: cookie
+        }
+      };
+      server.inject(options, function(response) {
+        expect(response.statusCode).to.equal(400);
+        done();
+      });
+    });
+  });
+
+  describe('post /items/3', function() {
+    it('should update an item', function(done) {
+      var options = {
+        method:'post',
+        url:'/items/' + item._id,
+        headers: {
+          cookie: cookie
+        }
+      };
+      server.inject(options, function(response) {
+        expect(response.statusCode).to.equal(302);
+        expect(response.headers.location).to.include('/items');
+        done();
+      });
+    });
+
+    it('should NOT update an item - failed joi validation', function(done) {
+      var options = {
+        method:'post',
+        url:'/items/not-an-id',
         headers: {
           cookie: cookie
         }
