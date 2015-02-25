@@ -124,4 +124,100 @@ describe('items', function() {
     });
   });
 
+  describe('get /items', function() {
+    it('should show all items', function(done) {
+      var options = {
+        method:'get',
+        url:'/items',
+        headers: {
+          cookie: cookie
+        }
+      };
+      server.inject(options, function(response) {
+        expect(response.statusCode).to.equal(200);
+        done();
+      });
+    });
+
+    it('should filter items - priority', function(done) {
+      var options = {
+        method:'get',
+        url:'/items?filter=priority&value=high',
+        headers: {
+          cookie: cookie
+        }
+      };
+      server.inject(options, function(response) {
+        expect(response.statusCode).to.equal(200);
+        expect(response.payload).to.include('dough');
+        expect(response.payload).to.not.include('apple');
+        done();
+      });
+    });
+
+    it('should filter items - tags', function(done) {
+      var options = {
+        method:'get',
+        url:'/items?filter=tags&value=tag5',
+        headers: {
+          cookie: cookie
+        }
+      };
+      server.inject(options, function(response) {
+        expect(response.statusCode).to.equal(200);
+        expect(response.payload).to.include('july');
+        expect(response.payload).to.not.include('apple');
+        done();
+      });
+    });
+
+    it('should filter items - isComplete', function(done) {
+      var options = {
+        method:'get',
+        url:'/items?filter=isComplete&value=true',
+        headers: {
+          cookie: cookie
+        }
+      };
+      server.inject(options, function(response) {
+        expect(response.statusCode).to.equal(200);
+        expect(response.payload).to.include('bread');
+        expect(response.payload).to.not.include('apple');
+        done();
+      });
+    });
+
+    it('should sort items - due', function(done) {
+      var options = {
+        method:'get',
+        url:'/items?sort=due',
+        headers: {
+          cookie: cookie
+        }
+      };
+      server.inject(options, function(response) {
+        expect(response.statusCode).to.equal(200);
+        expect(response.payload).to.include('lima');
+        expect(response.payload).to.not.include('apple');
+        done();
+      });
+    });
+
+    it('should page items - page 2', function(done) {
+      var options = {
+        method:'get',
+        url:'/items?sort=due&skip=5',
+        headers: {
+          cookie: cookie
+        }
+      };
+      server.inject(options, function(response) {
+        expect(response.statusCode).to.equal(200);
+        expect(response.payload).to.include('golf');
+        expect(response.payload).to.not.include('apple');
+        done();
+      });
+    });
+  });
+
 });
