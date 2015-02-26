@@ -11,7 +11,8 @@ nav.navbar.navbar-default
       ul.nav.navbar-nav.navbar-right        
         li: a(href='/'): i.fa.fa-home &nbsp; Home
         if email
-          li: a(href='/tasks'): i.fa.fa-check &nbsp; Tasks
+          li: a(href='/items'): i.fa.fa-check &nbsp; Items
+          li: a(href='/items/new'): i.fa.fa-bolt &nbsp; Add
           li
             form.navbar-form.navbar-right(method='post', action='/logout')
               button.btn.btn-default(type='submit')= email

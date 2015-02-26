@@ -43,7 +43,7 @@ describe('items', function() {
       };
       server.inject(options, function(response) {
         expect(response.statusCode).to.equal(200);
-        expect(response.payload).to.include('New Item');
+        expect(response.payload).to.include('Add');
         done();
       });
     });
@@ -186,7 +186,7 @@ describe('items', function() {
       });
     });
 
-    it('should sort items - due', function(done) {
+    it('should sort items - due asc', function(done) {
       var options = {
         method:'get',
         url:'/items?sort=due',
@@ -202,10 +202,26 @@ describe('items', function() {
       });
     });
 
+    it('should sort items - due desc', function(done) {
+      var options = {
+        method:'get',
+        url:'/items?sort=-due',
+        headers: {
+          cookie: cookie
+        }
+      };
+      server.inject(options, function(response) {
+        expect(response.statusCode).to.equal(200);
+        expect(response.payload).to.include('apple');
+        expect(response.payload).to.not.include('lima');
+        done();
+      });
+    });
+
     it('should page items - page 2', function(done) {
       var options = {
         method:'get',
-        url:'/items?sort=due&skip=5',
+        url:'/items?sort=due&page=2',
         headers: {
           cookie: cookie
         }

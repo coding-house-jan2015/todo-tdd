@@ -13,7 +13,10 @@ var itemSchema = mongoose.Schema({
 });
 
 itemSchema.pre('save', function(next){
-  this.tags = this.tags[0].split(',').map(function(s){return s.trim().toLowerCase();});
+  if(this.isNew){
+    this.tags = this.tags[0].split(',').map(function(s){return s.trim().toLowerCase();});
+  }
+
   next();
 });
 

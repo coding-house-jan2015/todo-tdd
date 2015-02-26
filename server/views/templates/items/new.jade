@@ -1,7 +1,11 @@
 extends ../../layouts/master
 block content
 
-  h3 New Item
+  .btn-toolbar(role='toolbar')
+    .btn-group(role='group')
+      a.btn.btn-default(href='/items'): i.fa.fa-check
+
+  h3 Add
 
   .row
     .col-xs-4

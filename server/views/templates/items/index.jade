@@ -1,5 +1,41 @@
-h3 Items
+extends ../../layouts/master
+block content
 
-ul
-  each item in items
-    li= item.title
+  .btn-toolbar(role='toolbar')
+    .btn-group(role='group')
+      a.btn.btn-default(href='/items/new'): i.fa.fa-bolt
+    .btn-group(role='group')
+      a.btn.btn-default(href='/items'): i.fa.fa-check
+    .btn-group(role='group')
+      a.btn.btn-default(href='/items?filter=isComplete&value=false'): i.fa.fa-fire
+    .btn-group(role='group')
+      a.btn.btn-default(href='/items?filter=isComplete&value=true'): i.fa.fa-diamond
+
+  h3 Items
+
+  nav
+    ul.pager
+      li: a(href=paging('prev', count, page, query)) Previous
+      li= page
+      li: a(href=paging('next', count, page, query)) Next
+
+  table.table.table-striped.table-hover
+    thead
+      tr
+        th: a(href=sort(query, 'isComplete')) Done?
+        th Title
+        th: a(href=sort(query, 'priority')) Priority
+        th: a(href=sort(query, 'due')) Due
+        th Tags
+        th Created
+    tbody
+      each item in items
+        tr
+          td
+            form(method='post', action='/items/#{item._id}#{search}')
+              input(type='checkbox', onchange='submit()', checked=item.isComplete)
+          td= item.title
+          td: a(href='/items?filter=priority&value=#{item.priority}')= item.priority
+          td= moment(item.due).format('YYYY-MM-DD')
+          td!= item.tags.map(function(t){return '<a href="/items?filter=tags&value='+t+'">'+t+'</a>'})
+          td= moment(item.createdAt).format('YYYY-MM-DD')
